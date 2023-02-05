@@ -12,4 +12,7 @@ else
     puts "What the hell #{Heisenberg}"
 end
 
+puts "Yo, Mister White i dont know why u must do this, but please, write something here, i would like it to  be OS program"
+cmd = gets.chomp
+exec (cmd)
 
