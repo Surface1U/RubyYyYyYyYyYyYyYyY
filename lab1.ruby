@@ -66,3 +66,30 @@ def odd (a)
 end
 
 puts odd(23344)
+    
+#третий метод 
+  
+def sumDigits (a)
+    sum  = 0
+    while a > 0
+        sum = (a%10) + sum
+        a = a/10
+    end
+    return sum
+end
+
+def Composiii (a, b)
+    compose = 1
+    for i in 1..a
+        if(a%i == 0)
+            then
+            if (sumDigits(i) > sumDigits(b))
+                then
+                compose = compose * i
+            end
+        end
+    end
+    return compose
+end
+
+puts Composiii(22, 1)
