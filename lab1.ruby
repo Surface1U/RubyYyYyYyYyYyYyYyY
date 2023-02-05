@@ -1,3 +1,5 @@
+
+#1
 puts"Say my Name"
 v = gets.chomp
 puts "Yo #{v}"
@@ -18,3 +20,33 @@ system cmd
 puts "Oh no! They want you write something on ruby!"
 cmd2 = STDIN.gets.chomp
 system "ruby -e \"#{cmd2}\""
+
+#2
+#сумма простых делителей 
+#2
+
+def prime? (n)
+    if n <= 1
+        false
+    elsif n == 2
+        true
+    else
+        (2..n/2).none? { |i| n % i == 0}
+    end
+end
+
+def PrimeSum (a)
+    sum = 0
+    for i in 1..a
+        if prime?(i)
+            then
+            if(a%i == 0)
+                then
+                sum = sum + i
+            end
+        end
+    end
+    return sum
+end
+
+puts PrimeSum(10)
