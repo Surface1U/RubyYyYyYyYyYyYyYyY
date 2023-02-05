@@ -95,46 +95,6 @@ end
 puts Composiii(22, 1)
         
         
-#таск 3
-#1.13
-
-a = [1,3,33,8,0,1,2,3,4]
-min = a[0]
-index = 0
-l  = a.length
-for i in 0..l
-    if a[i].to_i < min
-        min = a[i]
-        index = i
-    end
-end
-
-d = a[0..index-1]
-a[0..index-1] = a[index+1.. l]
-a[index+1..l] = d
-puts a
-        
-        
-#1.25
-
-arr = [1,3,4,7,3,1,2,23,4,5,6,2,2,3]
-a = 3
-b = 8
-min = arr[0]
-max = arr[0]
-
-
-for i in a..b
-    if arr[i].to_i < min
-        min = arr[i]
-    end
-    if arr[i].to_i > max
-        max = arr[i]
-    end
-end
-
-
-puts max
-puts min
+ 
 
 
