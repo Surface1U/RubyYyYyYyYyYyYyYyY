@@ -50,3 +50,19 @@ def PrimeSum (a)
 end
 
 puts PrimeSum(10)
+
+#сумма чётных больше трёх
+        
+def odd (a)
+    k = 0
+    while a>0
+        if ((a%10>3) && ((a%10)%2 == 0))
+            then
+            k = k+1
+        end
+        a = a/10
+    end
+    return k
+end
+
+puts odd(23344)
