@@ -113,3 +113,28 @@ d = a[0..index-1]
 a[0..index-1] = a[index+1.. l]
 a[index+1..l] = d
 puts a
+        
+        
+#1.25
+
+arr = [1,3,4,7,3,1,2,23,4,5,6,2,2,3]
+a = 3
+b = 8
+min = arr[0]
+max = arr[0]
+
+
+for i in a..b
+    if arr[i].to_i < min
+        min = arr[i]
+    end
+    if arr[i].to_i > max
+        max = arr[i]
+    end
+end
+
+
+puts max
+puts min
+
+
