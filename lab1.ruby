@@ -148,4 +148,18 @@ end
 
 Rev(a)
 
+#1.25
+a = [1,3,33,8,0,1,2,3,4]
+av = 2
+b = 4
+
+def minax (a, b, c)
+    newarr = a[b..c]
+    min = newarr.min
+    max = newarr.max
+    puts min 
+    puts max
+end
+
+minax(a, av, b)
 
