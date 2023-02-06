@@ -130,5 +130,22 @@ if met == 1
 else
     puts Posarr(array)
 end
+    
+#task4 
+ #1.13
+a = [1,3,33,8,0,1,2,3,4]
+
+def Rev (a)
+    l  = a.length
+    min = a.min
+    index = a.find_index(min)
+    puts index
+    d = a[0..index-1]
+    a[0..index-1] = a[index+1.. l]
+    a[index+1..l] = d
+    puts a
+end
+
+Rev(a)
 
 
