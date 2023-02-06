@@ -94,7 +94,41 @@ end
 
 puts Composiii(22, 1)
         
-        
- 
+#3        
+ def minel (arr)
+    return nil if arr.empty?
+    l  = arr.length
+    min = arr[0]
+    for x in 0..l
+        min = arr[x] if arr[x]<min
+    end
+    min
+end
+
+def Posarr(arr)
+    # return nil if arr.empty?
+    l = arr.length
+    for x in 0..l
+        if arr[x] > 0
+            return x
+        end
+        -1
+    end
+end
+
+
+puts"Write Arr path"
+puts""
+path = gets.chomp
+file = File.open(path)
+array = file.readline.split(' ').map(&:to_i)
+puts array
+puts"Choose method: "
+met = gets.chomp
+if met == 1
+    then puts minarr(array)
+else
+    puts Posarr(array)
+end
 
 
