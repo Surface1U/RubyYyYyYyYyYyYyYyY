@@ -183,4 +183,25 @@ def lessleft (a)
   end
 
 puts lessleft(a)
+    
+#1.49
+    
+      return true if num==2
+  return false if num<=1
+
+  Math.sqrt(num).to_int.downto(2).each do |x|
+    return false if (num%x)==0
+  end
+  true
+end
+def divide_list(list)
+  list.inject([]) do |res_divide, el|
+    divide = (2..el).inject([]) do |res,i|
+      res << i if prime(i)&& el%i==0
+      res
+    end
+    res_divide.concat(divide).uniq
+  end
+end
+
 
