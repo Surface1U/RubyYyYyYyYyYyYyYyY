@@ -163,3 +163,15 @@ end
 
 minax(a, av, b)
 
+
+ #1.1
+ a = [1,3,33,8,0,1,2,3,4]
+
+ def aftlastmax(a)
+    return 0 if a.empty?
+    maxind = a.rindex(a.max) #наивысший индекс
+    return a.size - maxind-1
+ end
+
+puts aftlastmax(a)
+
