@@ -175,3 +175,12 @@ minax(a, av, b)
 
 puts aftlastmax(a)
 
+#1.37
+a = [1,3,33,8,0,1,2,3,4]
+
+def lessleft (a)
+    a.filter {|x| a.index(x)!=0 && x<a[a.index(x)-1] }.map {|el| a.index(el)}
+  end
+
+puts lessleft(a)
+
