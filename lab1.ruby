@@ -186,6 +186,7 @@ puts lessleft(a)
     
 #1.49
     
+def prime (num)
       return true if num==2
   return false if num<=1
 
@@ -203,5 +204,40 @@ def divide_list(list)
     res_divide.concat(divide).uniq
   end
 end
+        
+        
+       #фул 4
+        
+file_name = ARGV[0]
+array = File.open(file_name) {|file| file.readlines.map(&:to_i)}
+methods = [:aftlastmax, :Rev, :minax,:lessleft, :divide_list]
+puts '1. Количество элементов после максимального
+2. Элементы до минимального в конец массива
+3. Максимальный их элементов в заданном интервале
+4. Вывести индексы элементов, которые меньше своего левого соседа, и количество таких чисел
+5. Построить список всех положительных простых делителей элементов списка без повторений'
+
+method_num = STDIN.gets.chomp.to_i
+unless method_num.between?(1, methods.length)
+  puts 'What???'
+  return
+end
+
+
+if method_num==3
+  puts 'Write bounds :'
+  print"a="
+  a=STDIN.gets.chomp.to_i
+  print"b="
+  b=STDIN.gets.chomp.to_i
+  res = method(methods[method_num-1]).call(array,a,b)
+else
+  res = method(methods[method_num-1]).call(array)
+end
+puts res.inspect
+if method_num==4
+  puts "Количество таких чисел: #{res.size}"
+end
+
 
 
