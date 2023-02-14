@@ -3,15 +3,13 @@
 puts"Say my Name"
 v = ARGV[0]
 puts "Yo #{v}"
-a = gets.chomp
-case a
-when "We have to cook Jesse"
+victim = gets.chomp
+
+if victim == "We have to cook Jesse"
     puts "Yes, Mister White, you're right Mister White"
 
 else
     puts "What the hell #{v}"
-
-
 end
 puts "Yo, Mister White i dont know why u must do this, but please, write something here, i would like it to  be OS program"
 cmd = STDIN.gets.chomp
@@ -69,11 +67,11 @@ puts odd(23344)
     
 #третий метод 
   
-def sumDigits (a)
+def sumDigits (num)
     sum  = 0
-    while a > 0
-        sum = (a%10) + sum
-        a = a/10
+    while num > 0
+        sum = (num%10) + sum
+        num = num/10
     end
     return sum
 end
