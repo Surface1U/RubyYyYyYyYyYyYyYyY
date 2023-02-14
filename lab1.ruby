@@ -1,7 +1,7 @@
 
 #1
 puts"Say my Name"
-v = gets.chomp
+v = ARGV[0]
 puts "Yo #{v}"
 a = gets.chomp
 case a
