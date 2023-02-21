@@ -104,7 +104,7 @@ puts Composiii(22, 1)
 end
 
 def positive_el(arr)
-    # return nil if arr.empty?
+    return nil if arr.empty?
     l = arr.length
     for x in 0..l
         if arr[x] > 0
