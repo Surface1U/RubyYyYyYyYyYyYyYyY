@@ -93,7 +93,7 @@ end
 puts Composiii(22, 1)
         
 #3        
- def minel (arr)
+ def min_element (arr)
     return nil if arr.empty?
     l  = arr.length
     min = arr[0]
@@ -103,7 +103,7 @@ puts Composiii(22, 1)
     min
 end
 
-def Posarr(arr)
+def positive_el(arr)
     # return nil if arr.empty?
     l = arr.length
     for x in 0..l
@@ -122,7 +122,7 @@ file = File.open(path)
 array = file.readline.split(' ').map(&:to_i)
 puts array
 puts"Choose method: "
-met = gets.chomp
+met = ARGV[0]
 if met == 1
     then puts minarr(array)
 else
@@ -133,7 +133,7 @@ end
  #1.13
 a = [1,3,33,8,0,1,2,3,4]
 
-def Rev (a)
+def befMinEnd (a)
     l  = a.length
     min = a.min
     index = a.find_index(min)
@@ -144,7 +144,7 @@ def Rev (a)
     puts a
 end
 
-Rev(a)
+befMinEnd(a)
 
 #1.25
 a = [1,3,33,8,0,1,2,3,4]
@@ -208,7 +208,7 @@ end
         
 file_name = ARGV[0]
 array = File.open(file_name) {|file| file.readlines.map(&:to_i)}
-methods = [:aftlastmax, :Rev, :minax,:lessleft, :divide_list]
+methods = [:aftlastmax, :befMinEnd, :minax,:lessleft, :divide_list]
 puts '1. Количество элементов после максимального
 2. Элементы до минимального в конец массива
 3. Максимальный их элементов в заданном интервале
