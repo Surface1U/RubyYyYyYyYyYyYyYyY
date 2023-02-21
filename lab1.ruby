@@ -117,7 +117,7 @@ end
 
 puts"Write Arr path"
 puts""
-path = gets.chomp
+path = ARGV[0]
 file = File.open(path)
 array = file.readline.split(' ').map(&:to_i)
 puts array
