@@ -124,9 +124,9 @@ puts array
 puts"Choose method: "
 met = ARGV[0]
 if met == 1
-    then puts minarr(array)
+    then puts min_element(array)
 else
-    puts Posarr(array)
+    puts positive_el(array)
 end
     
 #task4 
