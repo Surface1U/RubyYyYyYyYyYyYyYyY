@@ -42,17 +42,6 @@ class Student
     @git = git
   end
 
-  def validate
-    valid_git
-    valid_other
-  end
-
-  def valid_git
-    raise(ArgumentError,  "You don't write a git id") unless git
-  end
-  def valid_other
-    raise(ArgumentError, 'You must write at list one contact') unless phone || telegram || email
-  end
 
   def get_info
     puts "#{name}, #{surname}, #{lastname}, #{phone}, #{telegram}, #{email}, #{git}"
