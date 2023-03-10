@@ -1,69 +1,134 @@
 class Student
 
+    # Create getters and setters for all instance variables
+    attr_accessor :name, :middle_name, :telegram
+    attr_reader :phone, :email
+    
 
-  PHONE = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
-  TELEGRAM = /^@[A-Za-z\d_]{5,32}$/
-  EMAIL = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  GIT = /\Ahttps:\/\/github\.com\/\w+\z/
+    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+    
 
-  attr_accessor :name, :surname, :lastname, :phone, :telegram, :git, :email
+    VALID_PHONE_REGEX = /\A\+?\d{10}\z/
+    
+    def initialize(params = { name: '', surname: '', middle_name: '' })
+        @id: params[:id]
+        @surname: params[:name]
+        @git: params[:git]
+        @name = params[:name]
+        @middle_name = params[:middle_name]
+        
+        set_contacts(params[:phone], params[:telegram], params[:email])
+        
+        raise ArgumentError, "Name, surname and middle_name are required" unless @name && @surname && @middle_name
+        
+        if !validate
+            raise ArgumentError, "Git and at least one contact is req..."
+        end
+    end
+    
+    def to_s
+        "ID: #{@id}, Surname: #{@surname}, Name: #{@name}, Middle Name: #{@middle_name}, Phone: #{@phone}, Telegram: #{@telegram}, Email: #{@email}, Git: #{@git}"
+    end
+    
+    def self.from_string(string)
+        id, surname, name, middle_name, phone, telegram, email, git = string.split(',')
+        params = {
+            id: id,
+            surname: surname,
+            name: name,
+            middle_name: middle_name,
+            phone: phone,
+            telegram: telegram,
+            email: email,
+            git: git
+        }
+        new(params)
+    end
+    
 
-  def Student.correct_phone?(str)
-    str.match?(PHONE)
-  end
+    def self.read_from_txt(file_path)
+        students = []
+        begin
+            File.open(file_path, 'r') do |file|
+                file.each_line do |line|
+                    id, surname, name, middle_name, phone, telegram, email, git = line.split(',')
+                    params_to = { id: id, surname: surname, name: name, middle_name: middle_name, phone: phone, telegram: telegram, email: email, git: git }
+                    Student.new(params_to) << students
+                end
+            end
+            students
+            rescue => exception
+            raise "File not found at the given address #{file_path}. Exception: #{exception.message}"
+        end
+    end
+    
 
-  def Student.correct_telegram?(str)
-    str.match?(TELEGRAM)
-  end
-
-  def Student.correct_email?(str)
-    str.match?(EMAIL)
-  end
-
-  def Student.correct_git?(str)
-    str.match?(GIT)
-  end
-
-  def initialize(arg = {})
-    @name = arg[:name]
-    @surname = arg[:surname]
-    @lastname = arg[:lastname]
-  end
-
-  def set_contacts(phone, telegram, email, git)
-    raise(ArgumentError, 'Not avalible phone') if phone && !Student.correct_phone?(phone)
-    raise(ArgumentError, 'Not avalible telegram') if telegram && !Student.correct_telegram?(telegram)
-    raise(ArgumentError, 'Not avalible email') if email && !Student.correct_email?(email)
-    raise(ArgumentError, 'Not avalible git') if git && !Student.correct_git?(git)
-
-    @phone = phone
-    @telegram = telegram
-    @email = email
-    @git = git
-  end
-
-  def validate
-    valid_git
-    valid_other
-  end
-
-  def valid_git
-    raise(ArgumentError,  "You don't write a git id") unless git
-  end
-  def valid_other
-    raise(ArgumentError, 'You must write at list one contact') unless phone || telegram || email
-  end
-
-  def get_info
-    puts "#{name}, #{surname}, #{lastname}, #{phone}, #{telegram}, #{email}, #{git}"
-  end
+    def self.write_to_txt(file_path, students)
+        begin
+            File.open(file_path, 'w') do |file|
+                students.each do |student|
+                    file.puts "#{student.id},#{student.surname},#{student.name},#{student.middle_name},#{student.phone},#{student.telegram},#{student.email},#{student.git}"
+                end
+            end
+            rescue => exception
+            raise "File could not be written at the given address #{file_path}. Exception: #{exception.message}"
+        end
+    end
+    
+    #Setters:
+    def set_phone_number(new_phone)
+        if new_phone && !self.is_valid_phone?(new_phone)
+            raise ArgumentError, "Phone in wrong format."
+        end
+        @phone = new_phone
+        
+    def set_email(new_email)
+        if new_email && !self.is_valid_email?(new_email)
+            raise ArgumentError, "Email in wrong format."
+        end
+        @email = email
+    
+    def set_contacts(phone, telegram, email)
+        set_phone_number(phone)
+        set_email(email)
+        
+        @telegram = telegram
+    end
+    
+    def get_info
+        "#{get_name_info}, Git: #{@git}, #{get_contact_info}"
+    end
+    
+    def get_name_info
+        "#{@surname} #{@name[0]}.#{@middle_name[0]}."
+    end
+    
+    def get_contact_info
+        return "Phone: #{@phone}" if @phone
+        return "Telegram: #{@telegram}" if @telegram
+        "Email: #{@email}" if @email
+    end
+    
+    def self.is_valid_phone?(phone)
+        phone =~ VALID_PHONE_REGEX
+    end
+    
+    def self.is_valid_email?(email)
+        email =~ VALID_EMAIL_REGEX
+    end
+    
+    # MARK: - PRIVATE
+    private
+    def validate?
+        validate_git_presence && validate_contacts_presence
+    end
+    
+    # Validate that at least one contact is present
+    def validate_contacts_presence?
+        return true if phone || telegram || email
+        puts "At least one contact (phone, telegram, mail) is required"
+        false
+    end
 
 
 end
-
-obj = Student.new()
-obj.name = "ssss"
-obj.surname = "sss"
-obj.lastname = "sss"
-obj.email = "sss@gmail.com"
-obj.get_info()
