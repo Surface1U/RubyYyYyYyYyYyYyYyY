@@ -1,4 +1,6 @@
-class Student
+require_relative 'Student_super'
+
+class Student < Student_super
   attr_accessor :name, :surname, :telegram
   attr_reader :phone, :email
 
