@@ -11,15 +11,13 @@ class Student
     @git: params[:git]
     @name = params[:name]
     @middle_name = params[:middle_name]
-    
+
     set_contacts(params[:phone], params[:telegram], params[:email])
-    
-    # name, surname and middle_name are required
-    raise ArgumentError, "Name, surname and middle_name are required" unless @name && @surname && @middle_name
-    
-    # Validate that at least one contact is present and git is present
+
+    raise ArgumentError, "Ur names are required" unless @name && @surname && @middle_name
+
     if !validate
-        raise ArgumentError, "Git and at least one contact is req..."
+        raise ArgumentError, "Where ?"
     end
   end
 
@@ -30,24 +28,55 @@ class Student
   def self.from_string(string)
     id, surname, name, middle_name, phone, telegram, email, git = string.split(',')
     params = {
-      id:id, 
-      surname:surname, 
-      name:name, 
+      id:id,
+      surname:surname,
+      name:name,
       middle_name: middle_name,
       phone: phone,
       telegram: telegram,
-      email: email, 
+      email: email,
       git: git
     }
     new(params)
   end
+
+  def self.read_from_txt(file_path)
+    students = []
+    begin
+      File.open(file_path, 'r') do |file|
+        file.each_line do |line|
+          id, surname, name, middle_name, phone, telegram, email, git = line.split(',')
+          params_to = {id:id, surname: surname, name: name, middle_name: middle_name,
+          phone:phone, telegram: telegram, email: email, git: git}
+          Student.new(params_to) << students
+        end
+    end
+    students
+    rescue=>exception
+    raise "I cannot found this address #{file_path}. #{exception.message}"
+    end
+  end
+
+  def self.write_to_txt(file_path, students)
+    begin
+        File.open(file_path, 'w') do |file|
+            students.each do |student|
+                file.puts "#{student.id},#{student.surname},#{student.name},#{student.middle_name},#{student.phone},#{student.telegram},#{student.email},#{student.git}"
+            end
+        end
+        rescue => exception
+        raise "File could not be written at the given address #{file_path}. Exception: #{exception.message}"
+    end
+end
+
+
 
   def set_phone_number(new_phone)
     if new_phone && !self.is_valid_phone?(new_phone)
         raise ArgumentError, "Phone in wrong format."
     end
     @phone = new_phone
-    
+
   def set_email(new_email)
     if new_email && !self.is_valid_email?(new_email)
         raise ArgumentError, "Email in wrong format."
@@ -58,7 +87,7 @@ class Student
   def set_contacts(phone, telegram, email)
     set_phone_number(phone)
     set_email(email)
-    
+
     @telegram = telegram
   end
 
@@ -96,5 +125,4 @@ class Student
   end
 
 end
-
 
