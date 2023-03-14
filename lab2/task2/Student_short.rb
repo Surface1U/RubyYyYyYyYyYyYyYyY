@@ -3,7 +3,14 @@ require_relative 'Student_super'
 class Student_short < Student_super
 
   attr_accessor: contact
+  
+  def StudentShort.from_string(id, str)
+    hash = super(id, str)
+    new(Student.new(hash))
+  end
 
+
+ 
   def initialize (params = {id: '', surname: '', git: '', contact: ''})
     super(id, surname, git)
     @id = params[:id]
