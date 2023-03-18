@@ -1,36 +1,28 @@
 require_relative 'Student_super'
+class StudentShort<Student_super
+  public_class_method :new
+  attr_reader :short_name
+  private
+  attr_writer :short_name
 
-class Student_short < Student_super
-
-
-   attr_accessor: contact
-
-
-  def self.from_student(student)
-    raise ArgumentError, 'Student ID is required' if student.id.nil?
-
-    StudentShort.new(student.id, student.get_info, )
-  end
-  
-  
-  def StudentShort.from_string(id, str)
-    hash = super(id, str)
-    new(Student.new(hash))
+  public
+  #стандартный конструктор из строки
+  def initialize(id, str)
+    data = JSON.parse(str).transform_keys(&:to_sym)
+    raise ArgumentError, 'Fields required: short_name' if !data.key?(:short_name) || data[:short_name].nil?
+    self.short_name = data[:short_name]
+    super(id:id, git:data[:git], phone: data[:phone], email:data[:email], telegram:data[telegram])
   end
 
- 
-
-
-  def initialize (params = {id: '', surname: '', git: '', contact: ''})
-    @id = params[:id]
-    @surname = params[:surname]
-    @git = params [:git]
-    @contact = contact
-
-    validate_git
+  def self.init_from_student(student)
+    StudentShort.new(student.id, JSON.generate({"short_name": student.short_name, "phone": student.phone, "telegram": student.telegram, "email": student.email}))
   end
- 
+
   def to_s
-    "ID: #{@id}, Surname: #{@surname}, Git: #{@git}, Contact: #{@contact}"
+    result = short_name
+    result += " id=#{id} " unless id.nil?
+    result += " #{find_contact}"
+    result+= "  #{find_git}"
+    result
   end
 end
