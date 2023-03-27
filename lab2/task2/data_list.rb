@@ -10,20 +10,20 @@ class DataList
     self.selected_items=[]
   end
 
-  #elements with number
+  #выделение элементов по номеру
   def select(*numbers)
     selected_items.append(*numbers)
   end
 
-  #ID_array
+  #массив id выделенных элементов
   def get_select
     obj_list[selected_items].id
   end
 
   def get_names; end
 
-  #Get table
-  # Template
+  #получение таблицы
+  # Паттерн Шаблон
   def get_data
     index_id=0
     dt = obj_list.inject([]) do |res, object|
