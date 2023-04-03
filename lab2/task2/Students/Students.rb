@@ -1,10 +1,11 @@
 require 'json'
 require_relative 'Student_super'
-class Student<Student_super
+
+class Student < Student_super 
   public_class_method :new
   attr_reader :first_name, :second_name, :last_name
   #открываем сеттеры и геттеры из базового класса
-  public :phone, :telegram, :email, 'id=', 'phone=', 'telegram=', 'email=', 'git=', :set_contacts
+  public :phone, :telegram, :email, 'id=',  'git=', :set_contacts
   def initialize(last_name: nil, first_name: nil, second_name: nil, id: nil, phone:nil, telegram: nil, email: nil, git:nil)
     raise ArgumentError, "Required fields: first_name, second_name and last_name!" if first_name.nil? || second_name.nil?|| last_name.nil?
     self.last_name=last_name
@@ -44,14 +45,16 @@ class Student<Student_super
     "#{last_name} #{first_name[0]}. #{second_name[0]}."
   end
   def get_info
-    "#{short_name}, #{find_git}, #{find_contact}"
+    git_info = " git=#{git}" unless git.nil?
+    contact_info = "#{find_contact}" unless find_contact.nil?
+    "#{short_name} #{git_info} #{contact_info}"
   end
 
   def to_s
     res = "#{last_name} #{first_name} #{second_name}"
     res += " id=#{id}" unless id.nil?
     res += " phone=#{phone}" unless phone.nil?
-    res += " #{find_git}"
+    res += " git=#{git}" unless git.nil?
     res += " telegram=#{telegram}" unless telegram.nil?
     res += " email=#{email}" unless email.nil?
     res
@@ -64,9 +67,4 @@ class Student<Student_super
     end
     info_hash
   end
-
-  def to_json_str
-    JSON.generate(to_hash)
-  end
-
 end
