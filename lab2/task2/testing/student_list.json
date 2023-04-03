@@ -1,0 +1,24 @@
+[
+  {
+    "last_name": "Жопов",
+    "first_name": "Жопа",
+    "second_name": "Жоповивич",
+    "email": "ZhopaMan@mail.ru",
+    "id": 1
+  },
+  {
+    "last_name": "Жопов",
+    "first_name": "Жопаа",
+    "second_name": "Жоповивич",
+    "phone": "+79122636789",
+    "id": 2
+  },
+  {
+    "last_name": "Жопов",
+    "first_name": "Жопаа",
+    "second_name": "Жоповивич",
+    "email": "zhopaaaa0@gmail.com",
+    "phone": "89133331334",
+    "id": 3
+  }
+]
