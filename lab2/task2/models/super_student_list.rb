@@ -1,5 +1,5 @@
-require_relative '../student_model/student'
-require_relative '../student_model/student_short'
+require_relative '../students/student'
+require_relative '../students/student_short'
 require_relative '../data_list'
 require_relative 'student_list_yaml'
 class SuperStudentList
