@@ -28,7 +28,7 @@ class SuperStudentList
   end
 
   #полуение n элементов page страницы
-  def get_k_n_student_short_list(page, n, data_list:nil)
+  def get_k_n_student_short_list(page, n, data_list)
     page_list = students[(page-1)*n, n].map{|st| StudentShort.init_from_student(st)}
     return DataList.new(page_list) if data_list.nil?
 
