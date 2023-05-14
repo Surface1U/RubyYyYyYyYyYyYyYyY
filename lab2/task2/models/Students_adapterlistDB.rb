@@ -1,13 +1,12 @@
-require_relative '..student'
-require_relative '..student_short'
+require_relative '../../student_model/student'
+require_relative '../../student_model/student_short'
 require_relative '../data_list_model/data_list_student_short'
 require_relative 'db_students'
-
-class adapterStudentListDB
+class StudentListDbAdapter
 
   #стандартный коструктор
   def initialize
-    self.db = StudentDB.instance
+    self.db = DB.instance
   end
 
   # получить студента по id
@@ -42,11 +41,13 @@ class adapterStudentListDB
   end
 
   #полуение n элементов page страницы
-  def get_k_n_student_short_list(page,n)
-    students = db.execute('SELECT * FROM students LIMIT ? OFFSET ?',(page-1)*n,n)
+  def get_k_n_student_short_list(page,n,data_list)
+    students = db.execute('SELECT * FROM students LIMIT ?, ?',(page-1)*n,n)
     slice = students.map{|st| StudentShort.init_from_student(Student.new(**st.transform_keys(&:to_sym)))}
 
-    DataListStudentShort.new(slice)
+    return DataListStudentShort.new(slice) if data_list.nil?
+    data_list.replace_objects(slice)
+    data_list
   end
 
   private
@@ -57,3 +58,4 @@ class adapterStudentListDB
     [student.first_name, student.last_name,  student.second_name, student.phone, student.telegram, student.email, student.git]
   end
 end
+
