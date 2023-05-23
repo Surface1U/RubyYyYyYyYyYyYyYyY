@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 require_relative '../views/window'
 require_relative '../student_source_models/student_list'
 require_relative '../student_source_models/db_model/db_list_adapter'
@@ -7,12 +7,12 @@ require_relative '../student_source_models/files_model/file_list_adapter'
 require_relative '../student_source_models/files_model/student_list_json'
 require_relative '../student_source_models/files_model/student_list_yaml'
 require_relative '../student_source_models/files_model/student_list_txt'
-require_relative 'crud/add_student_controller'
+require_relative 'crud/student/add_student_controller'
 require_relative '../views/create_student_dialog'
 require_relative '../student_model/student'
-require_relative 'crud/change_student_name_controller'
-require_relative 'crud/change_student_git_controller'
-require_relative 'crud/change_student_contact_controller'
+require_relative 'crud/student/change_student_name_controller'
+require_relative 'crud/student/change_student_git_controller'
+require_relative 'crud/student/change_student_contact_controller'
 
 require 'fox16'
 require 'win32api'
@@ -80,7 +80,7 @@ class StudentListController
   end
 
   private
-  #открытие модального окна
+  #привязка модального окна
   def show_dialog(controller)
     view = CreateStudentDialog.new(@view, controller)
     controller.add_view(view)
