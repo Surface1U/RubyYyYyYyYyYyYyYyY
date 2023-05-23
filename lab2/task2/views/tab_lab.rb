@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 require 'fox16'
 include Fox
+require_relative '../controller/student_lab_controller'
+require_relative 'tab_student'
 class TabLab<FXVerticalFrame
   def initialize(parent, *args, &blk)
     super
-    @controller
+    @controller = StudentLabController.new(self)
     add_table
   end
 
@@ -12,7 +14,7 @@ class TabLab<FXVerticalFrame
     table_frame = FXVerticalFrame.new(self, :padLeft=>20)
     # page_change_buttons(table_frame)
     # Создаем таблицу
-    @table = FXTable.new(table_frame, :opts =>  TABLE_READONLY|LAYOUT_FIX_WIDTH|LAYOUT_FIX_HEIGHT|TABLE_COL_SIZABLE|TABLE_ROW_RENUMBER, :width=>600, :height=>320)
+    @table = FXTable.new(table_frame, :opts =>  TABLE_READONLY|LAYOUT_FIX_WIDTH|LAYOUT_FIX_HEIGHT|TABLE_COL_SIZABLE|TABLE_ROW_RENUMBER, :width=>600, :height=>350)
     @table.setTableSize(16, 3)
 
     @table.setColumnText(0, "Номер")
@@ -24,6 +26,8 @@ class TabLab<FXVerticalFrame
     # @table.setColumnWidth(0, 150)
     @table.setColumnWidth(1, 300)
     @table.setColumnWidth(2, 150)
+
+    add_crud(self)
   end
 
   def add_crud(parent)
@@ -31,17 +35,11 @@ class TabLab<FXVerticalFrame
     btn_list = FXHorizontalFrame.new(parent)
     btn_add = FXButton.new(btn_list, "Добавить", :opts=>BUTTON_NORMAL)
     btn_update = FXButton.new(btn_list, "Обновить", :opts=>BUTTON_NORMAL)
-    combo_change = FXComboBox.new(btn_list, 20, :opts=>  FRAME_SUNKEN|FRAME_THICK|LAYOUT_SIDE_TOP|LAYOUT_FILL_X)
-    # btn_change = FXButton.new(btn_list, "Изменить", :opts=>BUTTON_NORMAL)
+    btn_change = FXButton.new(btn_list, "Изменить", :opts=>BUTTON_NORMAL)
     btn_delete = FXButton.new(btn_list, "Удалить", :opts=>BUTTON_NORMAL)
 
-    combo_change.disable
+    btn_change.disable
     btn_delete.disable
-
-    combo_change.appendItem("Изменить ФИО")
-    combo_change.appendItem("Изменить Git")
-    combo_change.appendItem("Изменить контакт")
-
 
     # Устанавливаем обработчик события SEL_CHANGED для таблицы
     @table.connect(SEL_CHANGED) do
@@ -49,19 +47,21 @@ class TabLab<FXVerticalFrame
       (0...@table.getNumRows()).each { |row_index| num_selected_rows+=1 if @table.rowSelected?(row_index)}
 
       # Если выделена только одна строка, кнопка должна быть неактивной
-      if num_selected_rows == 1
-        combo_change.enable
-        btn_delete.enable
+      if num_selected_rows >=1
+        btn_change.enable
+        if @table.rowSelected?(@controller.get_count_lab-1) and num_selected_rows ==1
+          btn_delete.enable
+        end
         # Если выделено несколько строк, кнопка должна быть активной
-      elsif num_selected_rows >1
-        combo_change.disable
-        btn_delete.enable
+      elsif num_selected_rows==0
+        btn_change.disable
+        btn_delete.disable
       end
     end
 
     @table.getRowHeader.connect(SEL_RIGHTBUTTONPRESS) do
       @table.killSelection(true)
-      combo_change.disable
+      btn_change.disable
       btn_delete.disable
     end
 
@@ -69,6 +69,31 @@ class TabLab<FXVerticalFrame
     btn_update.connect(SEL_COMMAND) do
       refresh
     end
+    btn_add.connect(SEL_COMMAND) do
+      @controller.add_lab
+    end
+
+    btn_delete.connect(SEL_COMMAND) do
+      @controller.delete_lab
+      @table.killSelection
+    end
+
+    btn_change.connect(SEL_COMMAND) do
+      index = (0...@table.getNumRows).find {|row_index| @table.rowSelected?(row_index)}
+      @controller.update_lab(index)
+    end
+
+
+
+
+  end
+
+  def refresh
+    @controller.refresh_data
+  end
+
+  def on_datalist_changed(table)
+    TabStudent.update_data_table(@table, table)
   end
 
 end
