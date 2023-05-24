@@ -23,7 +23,6 @@ class StudentListController
     @data_list = DataListStudentShort.new([])
     @data_list.add_observer(@view)
     @student_list = StudentList.new(StudentListDbAdapter.new)
-    adapter_path = 'C:\Users\katya\Desktop\ruby_lab\students_lab\test_data\student_list.yaml'
     # @student_list = StudentList.new(StudentListFileAdapter.new(StudentListYaml.new, adapter_path))
   end
 
